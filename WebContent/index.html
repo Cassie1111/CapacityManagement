@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+		
+        <link rel="stylesheet" type="text/css" href="CSS/style.css">
+		<script src="resources/sap-ui-core.js"
+				id="sap-ui-bootstrap"
+				data-sap-ui-libs="sap.ui.commons,sap.m,sap.ui.table,sap.ui.ux3,sap.viz"
+				data-sap-ui-theme="sap_bluecrystal">
+		</script>
+		<!-- add sap.ui.table,sap.ui.ux3 and/or other libraries to 'data-sap-ui-libs' if required -->
+
+		<script>
+				sap.ui.localResources("capacity_management");
+				var view = sap.ui.view({id:"idLogonView", viewName:"capacity_management.Logon", type:sap.ui.core.mvc.ViewType.JS});
+				//var view1 = sap.ui.view({id:"idCapacityManagementView", viewName:"capacity_management.CapacityManagementView", type:sap.ui.core.mvc.ViewType.JS});
+				var view1 = sap.ui.view({id:"idTtypeView",viewName:"capacity_management.Ttype",type:sap.ui.core.mvc.ViewType.JS});												
+		        //var view2 = sap.ui.view({id:"idDetailInfoView",viewName:"capacity_management.DetailInfo",type:sap.ui.core.mvc.ViewType.JS});
+				
+				var app = new sap.m.App("appId",{initialPage:view});
+			    app.addPage(view);
+			    //app.placeAt("content");
+			    var shell = new sap.m.Shell("shellId",{
+			    	
+			    	app:app
+			    	
+			    });
+			    shell.placeAt("content");
+			    
+			    var myroutes = [{
+			    	pattern: "",
+			    	name: "LogonView",
+			    	view: "capacity_management.Logon",
+			    	viewType: sap.ui.core.mvc.ViewType.JS,
+			    	targetControl:"shellId",
+			    	clearTarget: true,
+			    	callback: function(){
+			    		myCallback(this);
+			    		
+			    	}
+			    },
+			    {
+			    	pattern: ["Ttype","Ttype"],
+			    	name: "TtypeView",
+			    	view: "capacity_management.Ttype",
+			    	viewType: sap.ui.core.mvc.ViewType.JS,
+			    	targetControl: "shellId",
+			    	clearTarget: true,
+			    	callback: function(){
+			    		myCallback(this);
+			    		
+			    	}
+			    },
+			    {
+			    	pattern: ["Capamain", "CapacityManagementView"],
+			    	name: "CapacityManagementView",
+			    	view: "capacity_management.CapacityManagementView",
+			    	viewType: sap.ui.core.mvc.ViewType.JS,
+			    	targetControl: "shellId",
+			    	clearTarget: true,
+			    	callback: function(){
+			    		myCallback(this);
+			    	}
+			    	
+			    },
+			    {
+			    	pattern: ["Detail", "DetailInfoView"],
+			    	name: "DetailInfoView",
+			    	view: "capacity_management.DetailInfo",
+			    	viewType: sap.ui.core.mvc.ViewType.JS,
+			    	targetControl: "shellId",
+			    	clearTarget: true,
+			    	callback: function(){
+			    		myCallback(this);
+			    	}
+			    }
+			    ];
+			    
+			    var myCallback = function($this){
+			    	var viewId = "id"+$this.name;
+			    	var view = sap.ui.getCore().byId(viewId);
+			    	if(view){
+			    		
+			    		view.destroy();
+			    	}
+			   		view = sap.ui.view({
+			    		id: viewId,
+			    		viewName:$this.view,
+			    		type:$this.viewType
+			    	});
+			    		
+			    	app.addPage(view);
+			    	app.to(viewId);
+			    };
+			    
+				
+			    
+			    var router = new sap.ui.core.routing.Router(myroutes);
+			    router.register("appRouter");
+			    router.initialize();
+			    
+			    
+			    
+		</script>
+
+	</head>
+	<body class="sapUiBody" role="application">
+		<div id="content"></div>
+	</body>
+</html>
